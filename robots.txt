@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://GrabJouninAnimate.github.io/hongchayun/sitemap.xml
+Sitemap: https://hongchayun.github.io/sitemap.xml

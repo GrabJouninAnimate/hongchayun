@@ -4,13 +4,13 @@
 
 ## 网站入口
 
-[访问红茶云加速器](https://grabjouninanimate.github.io/hongchayun/)
+[访问红茶云加速器](https://hongchayun.github.io/)
 
 ## 内容导航
 
-- [最新文章](https://grabjouninanimate.github.io/hongchayun/articles/)
-- [站点地图](https://grabjouninanimate.github.io/hongchayun/sitemap.xml)
-- [RSS 订阅](https://grabjouninanimate.github.io/hongchayun/feed.xml)
+- [最新文章](https://hongchayun.github.io/articles/)
+- [站点地图](https://hongchayun.github.io/sitemap.xml)
+- [RSS 订阅](https://hongchayun.github.io/feed.xml)
 
 ## 主要内容
 
@@ -29,4 +29,3 @@
 ## 持续更新
 
 本站会持续更新相关文章和公开信息。建议通过文章页面查看最新内容。
-
