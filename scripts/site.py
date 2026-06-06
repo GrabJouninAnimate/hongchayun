@@ -158,156 +158,168 @@ def layout(config: dict, title: str, description: str, body: str, canonical: str
   <link rel="canonical" href="{esc(canonical)}">
   <link rel="stylesheet" href="{esc(site_path(config, "/assets/css/style.css"))}?v={asset_version}">
   <link rel="alternate" type="application/rss+xml" title="{esc(config['title'])}" href="{esc(site_path(config, "/feed.xml"))}">
-  <!-- 弹窗样式与脚本开始 -->
-<style>
-  #popupOverlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999;
-    padding: 10px;
-    box-sizing: border-box;
-  }
-  
-  #popupOverlay.show {
-    display: flex;
-  }
-  
-  .popup-content {
-    background: #fff;
-    padding: 20px 30px;
-    border-radius: 12px;
-    max-width: 100%;
-    width: 370px;
-    text-align: center;
-    position: relative;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-    box-sizing: border-box;
-    max-height: 90vh;
-    overflow-y: auto;
-  }
-  
-  .popup-close-btn {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background: rgba(0, 0, 0, 0.05);
-    border: none;
-    font-size: 20px;
-    font-weight: bold;
-    color: #999;
-    cursor: pointer;
-    transition: all 0.3s;
-    flex-shrink: 0;
-    touch-action: manipulation;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    line-height: 1;
-    z-index: 10;
-  }
-  
-  .popup-close-btn:hover {
-    background: #f44336;
-    color: #fff;
-  }
-  
-  .popup-link {
-    text-decoration: none;
-    color: inherit;
-    display: block;
-  }
-  
-  .popup-title {
-    margin: 0 0 10px;
-    font-size: 24px;
-    font-weight: bold;
-    color: #ff4d4f;
-    word-wrap: break-word;
-  }
-  
-  .popup-image {
-    width: 100%;
-    max-width: 300px;
-    height: auto;
-    display: block;
-    margin: 0 auto 15px;
-    border-radius: 8px;
-  }
+<!-- 弹窗样式与脚本开始 -->
+  <style>
+    #popupOverlay {{
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      padding: 10px;
+      box-sizing: border-box;
+    }}
 
-  .popup-shop-btn {
-    display: inline-block;
-    width: 100%;
-    background: #e11d48;
-    color: #fff;
-    font-weight: bold;
-    padding: 12px 16px;
-    border-radius: 8px;
-    text-decoration: none;
-    transition: background 0.3s;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  }
+    #popupOverlay.show {{
+      display: flex;
+    }}
 
-  .popup-shop-btn:hover {
-    background: #be123c;
-  }
-  
-  /* 移动端适配 */
-  @media (max-width: 768px) {
-    .popup-content {
-      width: 95%;
-      max-width: 320px;
-      padding: 15px 20px;
-    }
-    
-    .popup-title {
+    .popup-content {{
+      background: #fff;
+      padding: 20px 30px;
+      border-radius: 12px;
+      max-width: 100%;
+      width: 370px;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+      box-sizing: border-box;
+      max-height: 90vh;
+      overflow-y: auto;
+    }}
+
+    .popup-close-btn {{
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.05);
+      border: none;
       font-size: 20px;
-    }
-    
-    .popup-close-btn {
-      width: 28px;
-      height: 28px;
-      font-size: 18px;
-    }
-  }
-</style>
+      font-weight: bold;
+      color: #999;
+      cursor: pointer;
+      transition: all 0.3s;
+      flex-shrink: 0;
+      touch-action: manipulation;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+      z-index: 10;
+    }}
 
-<!-- 弹窗 HTML 结构 -->
-<div id="popupOverlay">
-  <div class="popup-content">
-    <div style="display: flex; flex-direction: column; gap: 1rem;">
-      <!-- 推荐链接 -->
-      <a href="https://红茶云.com" target="_blank" class="popup-link">
-        <p class="popup-title">Clash 机场推荐</p>
-        <img src="https://free.picui.cn/free/2026/06/05/6a229370bf0c1.png" alt="机场地址" class="popup-image">
-      </a>
-      
-      <!-- 分割线 -->
-      <div style="border-top: 1px solid #f3f4f6; padding-top: 1rem;">
-        <a href="https://红茶云.com" target="_blank" class="popup-shop-btn">
-          🛒 购买 加速器
+    .popup-close-btn:hover {{
+      background: #f44336;
+      color: #fff;
+    }}
+
+    .popup-link {{
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }}
+
+    .popup-title {{
+      margin: 0 0 10px;
+      font-size: 24px;
+      font-weight: bold;
+      color: #ff4d4f;
+      word-wrap: break-word;
+    }}
+
+    .popup-image {{
+      width: 100%;
+      max-width: 300px;
+      height: auto;
+      display: block;
+      margin: 0 auto 15px;
+      border-radius: 8px;
+    }}
+
+    .popup-shop-btn {{
+      display: inline-block;
+      width: 100%;
+      background: #e11d48;
+      color: #fff;
+      font-weight: bold;
+      padding: 12px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background 0.3s;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }}
+
+    .popup-shop-btn:hover {{
+      background: #be123c;
+    }}
+
+    @media (max-width: 768px) {{
+      .popup-content {{
+        width: 95%;
+        max-width: 320px;
+        padding: 15px 20px;
+      }}
+
+      .popup-title {{
+        font-size: 20px;
+      }}
+
+      .popup-close-btn {{
+        width: 28px;
+        height: 28px;
+        font-size: 18px;
+      }}
+    }}
+  </style>
+
+  <div id="popupOverlay">
+    <div class="popup-content">
+      <div style="display: flex; flex-direction: column; gap: 1rem;">
+        <a href="https://红茶云.com" target="_blank" class="popup-link">
+          <p class="popup-title">Clash 机场推荐</p>
+          <img src="https://free.picui.cn/free/2026/06/05/6a229370bf0c1.png" alt="机场地址" class="popup-image">
         </a>
-      </div>
-    </div>
-    
-    <!-- 关闭按钮 -->
-    <button class="popup-close-btn" id="popupCloseBtn" aria-label="关闭">&times;</button>
-  </div>
-</div>
 
-<!-- 弹窗控制脚本 -->
+        <div style="border-top: 1px solid #f3f4f6; padding-top: 1rem;">
+          <a href="https://红茶云.com" target="_blank" class="popup-shop-btn">
+            🛒 购买 加速器
+          </a>
+        </div>
+      </div>
+
+      <button class="popup-close-btn" id="popupCloseBtn" aria-label="关闭">&times;</button>
+    </div>
+  </div>
+
+  <script>
+    (function() {{
+      const popupOverlay = document.getElementById('popupOverlay');
+      const popupCloseBtn = document.getElementById('popupCloseBtn');
+
+      window.addEventListener('DOMContentLoaded', function() {{
+        setTimeout(() => {{
+          popupOverlay.classList.add('show');
+        }}, 500);
+      }});
+
+      popupCloseBtn.addEventListener('click', function(e) {{
+        e.stopPropagation();
+        popupOverlay.classList.remove('show');
+      }});
+    }})();
+  </script>
+  <!-- 弹窗样式与脚本结束 -->
 <script>
   (function() {
     const popupOverlay = document.getElementById('popupOverlay');
