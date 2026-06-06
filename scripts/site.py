@@ -127,6 +127,7 @@ def layout(config: dict, title: str, description: str, body: str, canonical: str
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="msvalidate.01" content="A01B1B4F64CD28C5BF7D76F7A67FA745" />
   <title>{esc(full_title)}</title>
   <meta name="description" content="{esc(description)}">
   <meta name="keywords" content="{esc(keywords or config.get("keywords", ""))}">
