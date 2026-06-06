@@ -180,7 +180,7 @@ def render_home(config: dict, articles: list[dict], base_url: str) -> None:
       <h1>{esc(config['title'])}</h1>
       <p>{esc(config['description'])}</p>
       <div class="hero-actions">
-        <a class="btn btn-primary" href="{esc(site_path(config, "/articles/"))}">查看最新文章</a>
+        <a class="btn btn-primary" href="https://红茶云.com">点击购买</a>
         <a class="btn btn-secondary" href="#friends">友情链接</a>
       </div>
       <div class="update-pill">最近更新：{esc(config.get("last_updated"))} · {esc(config.get("notice"))}</div>
