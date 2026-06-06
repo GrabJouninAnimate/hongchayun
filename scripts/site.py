@@ -116,6 +116,30 @@ def load_articles() -> list[dict]:
     return articles
 
 
+def render_popup_ad(config: dict) -> str:
+    ad = config.get("popup_ad") or {}
+    if not ad.get("enabled"):
+        return ""
+    return f"""
+  <div id="popupOverlay" class="popup-overlay" aria-label="推荐广告">
+    <div class="popup-content">
+      <div class="popup-stack">
+        <a href="{esc(ad.get("link"))}" target="_blank" rel="sponsored noopener" class="popup-link">
+          <p class="popup-title">{esc(ad.get("title"))}</p>
+          <img src="{esc(ad.get("image"))}" alt="{esc(ad.get("image_alt"))}" class="popup-image">
+        </a>
+        <div class="popup-shop-wrap">
+          <a href="{esc(ad.get("shop_link"))}" target="_blank" rel="sponsored noopener" class="popup-shop-btn">
+            {esc(ad.get("shop_text"))}
+          </a>
+        </div>
+      </div>
+      <button class="popup-close-btn" id="popupCloseBtn" type="button" aria-label="关闭">&times;</button>
+    </div>
+  </div>
+"""
+
+
 def layout(config: dict, title: str, description: str, body: str, canonical: str, keywords: str = "") -> str:
     nav = "".join(
         f'<a href="{esc(site_path(config, item["url"]))}">{esc(item["name"])}</a>'
@@ -127,7 +151,6 @@ def layout(config: dict, title: str, description: str, body: str, canonical: str
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="msvalidate.01" content="A01B1B4F64CD28C5BF7D76F7A67FA745" />
   <title>{esc(full_title)}</title>
   <meta name="description" content="{esc(description)}">
   <meta name="keywords" content="{esc(keywords or config.get("keywords", ""))}">
@@ -149,6 +172,8 @@ def layout(config: dict, title: str, description: str, body: str, canonical: str
       <div><a href="{esc(site_path(config, "/articles/"))}">文章列表</a><a href="{esc(site_path(config, "/sitemap.xml"))}">站点地图</a><a href="{esc(site_path(config, "/feed.xml"))}">RSS</a></div>
     </div>
   </footer>
+  {render_popup_ad(config)}
+  <script src="{esc(site_path(config, "/assets/js/main.js"))}"></script>
 </body>
 </html>
 """
@@ -180,7 +205,7 @@ def render_home(config: dict, articles: list[dict], base_url: str) -> None:
       <h1>{esc(config['title'])}</h1>
       <p>{esc(config['description'])}</p>
       <div class="hero-actions">
-        <a class="btn btn-primary" href="https://红茶云.com">点击购买</a>
+        <a class="btn btn-primary" href="{esc(site_path(config, "/articles/"))}">查看最新文章</a>
         <a class="btn btn-secondary" href="#friends">友情链接</a>
       </div>
       <div class="update-pill">最近更新：{esc(config.get("last_updated"))} · {esc(config.get("notice"))}</div>
