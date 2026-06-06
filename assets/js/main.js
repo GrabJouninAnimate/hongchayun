@@ -8,11 +8,17 @@ document.documentElement.dataset.ready = "true";
     return;
   }
 
-  window.addEventListener("DOMContentLoaded", function () {
+  function showPopup() {
     window.setTimeout(function () {
       popupOverlay.classList.add("show");
     }, 500);
-  });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", showPopup, { once: true });
+  } else {
+    showPopup();
+  }
 
   popupCloseBtn.addEventListener("click", function (event) {
     event.stopPropagation();

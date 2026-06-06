@@ -134,7 +134,7 @@ def render_popup_ad(config: dict) -> str:
           </a>
         </div>
       </div>
-      
+      <button class="popup-close-btn" id="popupCloseBtn" type="button" aria-label="关闭">&times;</button>
     </div>
   </div>
 """
@@ -146,6 +146,7 @@ def layout(config: dict, title: str, description: str, body: str, canonical: str
         for item in config.get("nav", [])
     )
     full_title = title if title == config["title"] else f"{title} | {config['title']}"
+    asset_version = urllib.parse.quote(str(config.get("_asset_version", "")))
     return f"""<!doctype html>
 <html lang="zh-CN">
 <head>
@@ -155,7 +156,7 @@ def layout(config: dict, title: str, description: str, body: str, canonical: str
   <meta name="description" content="{esc(description)}">
   <meta name="keywords" content="{esc(keywords or config.get("keywords", ""))}">
   <link rel="canonical" href="{esc(canonical)}">
-  <link rel="stylesheet" href="{esc(site_path(config, "/assets/css/style.css"))}">
+  <link rel="stylesheet" href="{esc(site_path(config, "/assets/css/style.css"))}?v={asset_version}">
   <link rel="alternate" type="application/rss+xml" title="{esc(config['title'])}" href="{esc(site_path(config, "/feed.xml"))}">
 </head>
 <body>
@@ -173,7 +174,7 @@ def layout(config: dict, title: str, description: str, body: str, canonical: str
     </div>
   </footer>
   {render_popup_ad(config)}
-  <script src="{esc(site_path(config, "/assets/js/main.js"))}"></script>
+  <script src="{esc(site_path(config, "/assets/js/main.js"))}?v={asset_version}"></script>
 </body>
 </html>
 """
@@ -315,6 +316,7 @@ def build(args: argparse.Namespace) -> None:
     config = update_site_dates(read_yaml(SITE_FILE))
     base_url = site_url(config, args.site_url)
     config["_base_path"] = base_path_from_url(base_url)
+    config["_asset_version"] = dt.datetime.now().strftime("%Y%m%d%H%M%S")
     articles = load_articles()
     for article in articles:
         render_article(config, article, articles, base_url)
