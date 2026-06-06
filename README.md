@@ -1,0 +1,32 @@
+# 红茶云加速器
+
+红茶云加速器内容站，持续整理机场测评、官网入口、套餐信息、优惠活动和使用注意事项。
+
+## 网站入口
+
+[访问红茶云加速器](https://grabjouninanimate.github.io/hongchayun/)
+
+## 内容导航
+
+- [最新文章](https://grabjouninanimate.github.io/hongchayun/articles/)
+- [站点地图](https://grabjouninanimate.github.io/hongchayun/sitemap.xml)
+- [RSS 订阅](https://grabjouninanimate.github.io/hongchayun/feed.xml)
+
+## 主要内容
+
+- 机场服务公开信息整理
+- 官网入口与使用说明
+- 套餐价格和优惠活动
+- 使用体验与注意事项
+- 信息更新日期与变更记录
+
+## 使用说明
+
+本站内容来自公开信息整理，服务地址、套餐价格、优惠活动和可用性可能发生变化，请以服务商官网实时信息为准。
+
+请遵守所在地法律法规、平台规则及相关服务条款，注意保护个人账号和隐私信息。
+
+## 持续更新
+
+本站会持续更新相关文章和公开信息。建议通过文章页面查看最新内容。
+
