@@ -135,7 +135,7 @@ def render_popup_ad(config: dict) -> str:
           </a>
         </div>
       </div>
-      <button class="popup-close-btn" id="popupCloseBtn" type="button" aria-label="关闭">&times;</button>
+      <button class="1" id="2" type="button" aria-label="关闭">&times;</button>
     </div>
   </div>
 """
