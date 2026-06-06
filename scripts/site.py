@@ -9,6 +9,7 @@ import json
 import os
 import re
 import sys
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -134,7 +135,7 @@ def render_popup_ad(config: dict) -> str:
           </a>
         </div>
       </div>
-      <but1ton class="2" id="1" type="button" aria-label="关闭">&times;</button>
+      <button class="popup-close-btn" id="popupCloseBtn" type="button" aria-label="关闭">&times;</button>
     </div>
   </div>
 """
@@ -158,7 +159,6 @@ def layout(config: dict, title: str, description: str, body: str, canonical: str
   <link rel="canonical" href="{esc(canonical)}">
   <link rel="stylesheet" href="{esc(site_path(config, "/assets/css/style.css"))}?v={asset_version}">
   <link rel="alternate" type="application/rss+xml" title="{esc(config['title'])}" href="{esc(site_path(config, "/feed.xml"))}">
-
 </head>
 <body>
   <header class="site-header">
@@ -522,12 +522,37 @@ def indexnow(args: argparse.Namespace) -> None:
     if not key:
         print("No INDEXNOW_KEY/local indexnow.key found, skip.")
         return
+    if not re.fullmatch(r"[A-Za-z0-9-]{8,128}", key):
+        print("INDEXNOW_KEY must be 8-128 letters, numbers, or dashes. Skip IndexNow.")
+        return
+    key_location = f"{base_url}/{key}.txt"
+    key_ready = False
+    for attempt in range(1, 13):
+        check_url = f"{key_location}?check={int(time.time())}"
+        check_request = urllib.request.Request(
+            check_url,
+            headers={"User-Agent": "hongchayun-indexnow/1.0", "Cache-Control": "no-cache"},
+        )
+        try:
+            with urllib.request.urlopen(check_request, timeout=20) as response:
+                content = response.read().decode("utf-8", errors="replace").strip()
+                if response.status == 200 and content == key:
+                    key_ready = True
+                    print(f"IndexNow key file verified: {key_location}")
+                    break
+        except (urllib.error.HTTPError, urllib.error.URLError, TimeoutError):
+            pass
+        print(f"Waiting for GitHub Pages to publish IndexNow key ({attempt}/12)...")
+        time.sleep(10)
+    if not key_ready:
+        print(f"IndexNow key file is not available yet, skip this notification: {key_location}")
+        return
     urls = [f"{base_url}/", f"{base_url}/articles/"]
     urls += [base_url + article_url(article) for article in load_articles()]
     payload = {
         "host": urllib.parse.urlparse(base_url).netloc,
         "key": key,
-        "keyLocation": f"{base_url}/{key}.txt",
+        "keyLocation": key_location,
         "urlList": sorted(set(urls)),
     }
     request = urllib.request.Request(
@@ -536,8 +561,12 @@ def indexnow(args: argparse.Namespace) -> None:
         headers={"Content-Type": "application/json"},
         method="POST",
     )
-    with urllib.request.urlopen(request, timeout=30) as response:
-        print(f"IndexNow {response.status}: {response.read().decode('utf-8', errors='replace')}")
+    try:
+        with urllib.request.urlopen(request, timeout=30) as response:
+            print(f"IndexNow {response.status}: {response.read().decode('utf-8', errors='replace')}")
+    except urllib.error.HTTPError as error:
+        detail = error.read().decode("utf-8", errors="replace")
+        print(f"IndexNow warning HTTP {error.code}: {detail or error.reason}")
 
 
 def main() -> int:
