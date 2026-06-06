@@ -4,6 +4,14 @@ on:
   schedule:
     - cron: "0 0 * * *"
   workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "content/site.yml"
+      - "scripts/site.py"
+      - "assets/css/style.css"
+      - "assets/js/main.js"
 
 permissions:
   contents: write
@@ -41,7 +49,9 @@ jobs:
           DEEPSEEK_MODEL: ${{ vars.DEEPSEEK_MODEL }}
           KEYWORDS: ${{ secrets.KEYWORDS }}
         run: |
-          if [ -n "$KEYWORDS" ]; then
+          if [ "$GITHUB_EVENT_NAME" = "push" ]; then
+            python scripts/site.py build --site-url "$RESOLVED_SITE_URL"
+          elif [ -n "$KEYWORDS" ]; then
             python scripts/site.py batch --limit 1 --site-url "$RESOLVED_SITE_URL"
           else
             python scripts/site.py new "红茶云加速器机场测评" --site-url "$RESOLVED_SITE_URL"
