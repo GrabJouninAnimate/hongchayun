@@ -5,7 +5,7 @@ author: 红茶云
 site_url: https://hongchayun.github.io
 hero_image: /assets/img/hero.png
 default_image: /assets/img/hero.png
-last_updated: '2026-06-06'
+last_updated: '2026-06-07'
 notice: 本站内容由本地 Python 构建，公开信息以官网实时显示为准。
 popup_ad:
   enabled: true
@@ -26,12 +26,12 @@ friends:
 - name: 技术教程导航
   url: https://example.com
   desc: 示例友情链接，请替换为真实合作站点。
-  last_checked: '2026-06-06'
+  last_checked: '2026-06-07'
 - name: 工具资源目录
   url: https://example.org
   desc: 友情链接建议定期核验，避免失效链接。
-  last_checked: '2026-06-06'
+  last_checked: '2026-06-07'
 - name: 网络工具笔记
   url: https://example.net
   desc: 保留少量高质量链接，不堆垃圾外链。
-  last_checked: '2026-06-06'
+  last_checked: '2026-06-07'
