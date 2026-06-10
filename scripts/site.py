@@ -549,24 +549,30 @@ def indexnow(args: argparse.Namespace) -> None:
         return
     urls = [f"{base_url}/", f"{base_url}/articles/"]
     urls += [base_url + article_url(article) for article in load_articles()]
-    payload = {
-        "host": urllib.parse.urlparse(base_url).netloc,
-        "key": key,
-        "keyLocation": key_location,
-        "urlList": sorted(set(urls)),
-    }
-    request = urllib.request.Request(
-        "https://api.indexnow.org/indexnow",
-        data=json.dumps(payload, ensure_ascii=False).encode("utf-8"),
-        headers={"Content-Type": "application/json"},
-        method="POST",
-    )
-    try:
-        with urllib.request.urlopen(request, timeout=30) as response:
-            print(f"IndexNow {response.status}: {response.read().decode('utf-8', errors='replace')}")
-    except urllib.error.HTTPError as error:
-        detail = error.read().decode("utf-8", errors="replace")
-        print(f"IndexNow warning HTTP {error.code}: {detail or error.reason}")
+    failures: list[str] = []
+    accepted = 0
+    for url in sorted(set(urls)):
+        query = urllib.parse.urlencode({"url": url, "key": key})
+        request = urllib.request.Request(
+            f"https://www.bing.com/indexnow?{query}",
+            headers={"User-Agent": "hongchayun-indexnow/1.0"},
+        )
+        try:
+            with urllib.request.urlopen(request, timeout=30) as response:
+                if response.status in {200, 202}:
+                    accepted += 1
+                else:
+                    failures.append(f"{url} (HTTP {response.status})")
+        except urllib.error.HTTPError as error:
+            detail = error.read().decode("utf-8", errors="replace").strip()
+            failures.append(f"{url} (HTTP {error.code}: {detail or error.reason})")
+        except (urllib.error.URLError, TimeoutError) as error:
+            failures.append(f"{url} ({error})")
+
+    print(f"IndexNow accepted {accepted}/{len(set(urls))} URLs.")
+    if failures:
+        print("::error title=IndexNow submission failed::Bing rejected one or more URLs.")
+        raise RuntimeError("IndexNow rejected URLs:\n" + "\n".join(failures))
 
 
 def main() -> int:
